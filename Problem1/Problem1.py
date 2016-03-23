@@ -58,13 +58,7 @@ print "\nselect last_name, first_name, title, salary from s_emp where salary > 1
 print "\nselect last_name, first_name, title, salary, name from s_emp e join s_dept d on(e.dept_id = d.id): ", [[i[1], i[2], i[6], i[7], j[1]] for i in s_emp[1::] for j in s_dept[1::] if int(i[9]) == int(j[0])]
 
 #select dept_id, avg(salary) from s_emp group by dept_id order by dept_id;
-print "\nselect dept_id, avg(salary) from s_emp group by dept_id order by dept_id: "
-for department in { d[9] for d in s_emp[1::] }: print (lambda deptno, avgSal: (deptno, avgSal))(department, (lambda l: round(sum(l) / len(l), 2))(map(float,[ e[7] for e in s_emp[1::] if e[9] == department ])))
-
-#######Still have to order by dept_id above
+print "\nselect dept_id, avg(salary) from s_emp group by dept_id order by dept_id: ", [(lambda deptno, avgSal: [deptno, avgSal])(department, (lambda l: round(sum(l) / len(l), 2))(map(float,[ e[7] for e in s_emp[1::] if e[9] == department ]))) for department in sorted({ d[9] for d in s_emp[1::] }, key=lambda x: x)]
 
 #select dept_id, avg(salary) from s_emp group by dept_id having avg(salary) < 1500;
-print "\nselect dept_id, avg(salary) from s_emp group by dept_id having avg(salary) < 1500: ",
-for department in { d[9] for d in s_emp[1::] }: print (lambda deptid, avgSal: (deptid, avgSal) if avgSal < 1500 else '')(department, (lambda l: round(sum(l) / len(l), 2))(map(float,[ e[7] for e in s_emp[1::] if e[9] == department ])))
-
-#######Gives weird three empty lines to look up why its doing so
+print "\nselect dept_id, avg(salary) from s_emp group by dept_id having avg(salary) < 1500: ", [i for i in [(lambda deptid, avgSal: [deptid, avgSal])(department, (lambda l: round(sum(l) / len(l), 2))(map(float,[ e[7] for e in s_emp[1::] if e[9] == department ]))) for department in { d[9] for d in s_emp[1::] }] if i[1] <1500]
