@@ -32,11 +32,6 @@ var list = function() {
             },
         };
 
-        var iterator = {
-            counter: 0,
-
-        }
-
         var F = function () {
         };
         var f = new F();
@@ -81,52 +76,56 @@ var list = function() {
         };
 
         f.iterator = function() {
-            return
-        }
+            var data = {
+                counter: 0,
+                iterNode: l.head
+            };
+            var F = function(){};
+            instance = new F();
+            instance.getNext = function(){
+                if (data[iterNode].next != null) {
+                    var currentData = data[iterNode].data;
+                    data[counter] += 1;
+                    data[iterNode] = l.currentNode.next;
+                    return currentData;
+                }
+                else {
+                    return null;
+                }
+            };
+        }();
 
         return f;
     }();
     return list;
 };
 
+
 var l1 = new list();
-l1.concat('a')
-l1.cons('b')
-document.writeln("l1: " + l1.first() + "<BR>");
-document.writeln("l1: " + l1.length() + "<BR>");
 
-var l2 = new list();
-l2.cons('c')
-document.writeln("<BR>l2: " + l2.car() + "<BR>");
-document.writeln("l2: " + l2.length() + "<BR>");
+l1.cons('a');
+l1.cons('b');
+l1.cons('c');
+l1.cons('d');
+l1.cons('e');
 
-var l3 = new list();
-var l4 = new list();
-l3.cons('x')
-l3.cons('y')
-l3.cons('z')
-l4.cons(l3);
-l4.cons(l3.car());
 
-document.writeln("<BR>l3: " + l3.car());
-while(l3.length() > 0) {
-    document.writeln(", " + l3.cdr().car());
-}
-
-var h = l4.run('head');
-document.writeln("<BR>l4: " + h.data);
-for(var i = 1; i < l4.length(); i++) {
+var h = l1.run('head');
+document.writeln("<br>l1: " + h.data);
+for(var i = 1; i < l1.length(); i++) {
     h = h.next;
     document.writeln(", " + h.data);
 }
 
-document.writeln("<BR><BR>l1: " + l1.car() + "<BR>");
-document.writeln("l1: " + l1.length() + "<BR>");
+var l2 = new list();
+l2.cons('a');
+l2.cons('b');
+l2.cons('c');
+l2.cons('d');
+l2.cons('e');
 
-l4.map(function(x){return (x + x)});
-var h1 = l4.run('head');
-document.writeln("<BR>l4: " + h1.data);
-for(var i = 1; i < l4.length(); i++) {
-    h1 = h1.next;
-    document.writeln(", " + h1.data);
-}
+document.writeln("<br>l2 iterator: " + l2.iterator());
+document.writeln("<br>l2 iterator: " + l2.iterator.getNext());
+document.writeln("<br>l2 iterator: " + l2.iterator.getNext());
+document.writeln("<br>l2 iterator: " + l2.iterator.getNext());
+document.writeln("<br>l2 iterator: " + l2.iterator.getNext());
