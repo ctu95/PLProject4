@@ -76,24 +76,20 @@ var list = function() {
         };
 
         f.iterator = function() {
-            var data = {
-                counter: 0,
-                iterNode: l.head
-            };
-            var F = function(){};
-            instance = new F();
-            instance.getNext = function(){
-                if (data[iterNode].next != null) {
-                    var currentData = data[iterNode].data;
-                    data[counter] += 1;
-                    data[iterNode] = l.currentNode.next;
-                    return currentData;
+            var iterNode = l.head;
+            function getNext(){
+                var currentData = iterNode.data;
+                if (iterNode.next !== null) {
+                    iterNode = iterNode.next;
                 }
                 else {
-                    return null;
+                    return "You have exhausted this iterator."
                 }
+                return currentData;
+
             };
-        }();
+            return getNext;
+        };
 
         return f;
     }();
@@ -124,8 +120,11 @@ l2.cons('c');
 l2.cons('d');
 l2.cons('e');
 
-document.writeln("<br>l2 iterator: " + l2.iterator());
-document.writeln("<br>l2 iterator: " + l2.iterator.getNext());
-document.writeln("<br>l2 iterator: " + l2.iterator.getNext());
-document.writeln("<br>l2 iterator: " + l2.iterator.getNext());
-document.writeln("<br>l2 iterator: " + l2.iterator.getNext());
+var iter = l2.iterator();
+
+document.writeln("<br>l2 iterator: " + iter());
+document.writeln("<br>l2 iterator: " + iter());
+document.writeln("<br>l2 iterator: " + iter());
+document.writeln("<br>l2 iterator: " + iter());
+document.writeln("<br>l2 iterator: " + iter());
+document.writeln("<br>l2 iterator: " + iter());
